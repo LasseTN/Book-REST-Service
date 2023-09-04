@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Interfaces;
+using DataAccess.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic {
     public class UserControl : IUserControl {
-        public Task<bool> Create(User entity) {
-            throw new NotImplementedException();
+
+        private readonly IUserAccess _userAccess;
+        public UserControl(IUserAccess userAccess) { 
+            _userAccess = userAccess;
+        }
+        public async Task<bool> Create(User entity) {
+            return await _userAccess.Create(entity);
         }
 
         public Task<User> Get(string id) {
