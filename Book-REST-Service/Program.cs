@@ -31,6 +31,9 @@ namespace Book_REST_Service {
             builder.Services.AddTransient<IBookControl, BookControl>();
             builder.Services.AddTransient<IBookAccess, BookAccess>();
 
+            // User
+            builder.Services.AddTransient<IUserControl, UserControl>();
+            builder.Services.AddTransient<IUserAccess, UserAccess>();
 
             // SeriLog
             var _logger = new LoggerConfiguration()
