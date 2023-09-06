@@ -46,7 +46,7 @@ namespace DataAccess {
                                 @email,
                                 @address,
                                 @zipcode,
-                                @city";
+                                @city)";
 
                 try {
                     var rowsAffected = conn.Execute(sql, entity);

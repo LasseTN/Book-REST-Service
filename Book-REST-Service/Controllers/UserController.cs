@@ -19,7 +19,7 @@ namespace Book_REST_Service.Controllers {
             ActionResult<bool> foundResult;
             bool insertedOk = false;
 
-             if (userToCreate != null) {
+            if (userToCreate != null) {
                 insertedOk = await _userControl.Create(userToCreate);
 
                 if (insertedOk == true) {
@@ -30,7 +30,9 @@ namespace Book_REST_Service.Controllers {
             } else {
                 foundResult = new BadRequestResult();
             }
-             return foundResult;
+
+            return foundResult;
         }
+
     }
 }
