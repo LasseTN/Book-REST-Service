@@ -3,22 +3,22 @@ using DataAccess.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Model;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace DataAccess {
     public class UserAccess : IUserAccess {
 
         private readonly string? _connectionString;
-        private readonly ILogger<UserAccess> _logger;
+        private readonly ILogger<UserAccess>? _logger;
 
-        public UserAccess(IConfiguration connectionString, ILogger<UserAccess>? logger = null) {
-            _connectionString = connectionString.GetConnectionString("DbAccessConnection");
+        public UserAccess(IConfiguration configuration, ILogger<UserAccess>? logger = null) {
+            _connectionString = configuration.GetConnectionString("DbAccessConnection");
             _logger = logger;
+        }
+
+        public UserAccess(string connectionString) {
+            _connectionString = connectionString;
         }
 
         public async Task<bool> Create(User entity) {
@@ -26,9 +26,8 @@ namespace DataAccess {
             using (SqlConnection conn = new SqlConnection(_connectionString)) {
                 await conn.OpenAsync();
                 var sql = @"
-                            INSERT INTO User
-
-                                (userId,
+                            INSERT INTO [User] (
+                                userId,
                                 firstName,
                                 lastName,
                                 birthdate,
@@ -36,9 +35,10 @@ namespace DataAccess {
                                 email,
                                 address,
                                 zipcode,
-                                city)
-                            VALUES
-                                (@userId,
+                                city
+                            )
+                            VALUES (
+                                @userId,
                                 @firstName,
                                 @lastName,
                                 @birthdate,
@@ -46,7 +46,8 @@ namespace DataAccess {
                                 @email,
                                 @address,
                                 @zipcode,
-                                @city)";
+                                @city
+                            )";
 
                 try {
                     var rowsAffected = conn.Execute(sql, entity);
