@@ -34,5 +34,19 @@ namespace Book_REST_Service.Controllers {
             return foundResult;
         }
 
+        // GET api/<UserController>/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> Get(string id) {
+            ActionResult<User> foundReturn;
+
+            User? foundUser = await _userControl.Get(id);
+
+            if (foundUser != null) {
+                foundReturn = Ok(foundUser);
+            } else {
+                foundReturn = new StatusCodeResult(204);
+            }
+            return foundReturn;
+        }
     }
 }

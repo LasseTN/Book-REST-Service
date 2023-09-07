@@ -65,8 +65,37 @@ namespace DataAccess {
             return userInserted;
         }
     
-    public Task<User> Get(string id) {
-        throw new NotImplementedException();
+    public async Task<User> Get(string id) {
+            User? foundUser = null;
+
+            string sql = @"SELECT
+                            userid,
+                            firstname,
+                            lastname,
+                            birthdate,
+                            phone,
+                            email,
+                            address,
+                            zipcode,
+                            city
+                        FROM
+                            [User]
+                        WHERE
+                            userId = @userId";
+
+            using (SqlConnection con = new SqlConnection(_connectionString)) {
+                await con.OpenAsync();
+
+                try {
+                    foundUser = con.Query<User>(sql, new { userId = id }).FirstOrDefault();
+                    if (foundUser != null) {
+                        _logger?.LogInformation($"A user was found with userId {foundUser.UserId}");
+                    }
+                } catch (Exception ex) {
+                    _logger?.LogError(ex.Message + "// Get a user failed");
+                }
+            }
+            return foundUser;
     }
 
     public Task<bool> Update(User entity) {

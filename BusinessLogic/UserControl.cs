@@ -18,8 +18,8 @@ namespace BusinessLogic {
             return await _userAccess.Create(entity);
         }
 
-        public Task<User> Get(string id) {
-            throw new NotImplementedException();
+        public async Task<User> Get(string id) {
+            return await _userAccess.Get(id);
         }
 
         public Task<bool> Update(User entity) {
