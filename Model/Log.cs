@@ -8,14 +8,14 @@ namespace Model {
     public class Log {
 
         public int LogId { get; set; }
-        public Book BookId { get; set; }
+        public int BookId { get; set; }
         public User UserId { get; set; }
         public int CurrentPage { get; set; }
         public Book NoOfPages { get; set; }
 
         public Log() { }
 
-        public Log(int logId, Book bookId, User userId, int currentPage, Book noOfPages) {
+        public Log(int logId, int bookId, User userId, int currentPage, Book noOfPages) {
             LogId = logId;
             BookId = bookId;
             UserId = userId;

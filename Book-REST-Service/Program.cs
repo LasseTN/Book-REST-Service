@@ -35,6 +35,10 @@ namespace Book_REST_Service {
             builder.Services.AddTransient<IUserControl, UserControl>();
             builder.Services.AddTransient<IUserAccess, UserAccess>();
 
+            // Log
+            builder.Services.AddTransient<ILogControl, LogControl>();
+            builder.Services.AddTransient<ILogAccess, LogAccess>();
+
             // SeriLog
             var _logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
