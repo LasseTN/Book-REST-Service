@@ -22,8 +22,8 @@ namespace BusinessLogic {
             return await _userAccess.Get(id);
         }
 
-        public Task<bool> Update(User entity) {
-            throw new NotImplementedException();
+        public async Task<bool> Update(User entity) {
+            return await _userAccess.Update(entity);
         }
     }
 }

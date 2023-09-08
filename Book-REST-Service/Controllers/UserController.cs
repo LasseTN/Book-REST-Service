@@ -48,5 +48,24 @@ namespace Book_REST_Service.Controllers {
             }
             return foundReturn;
         }
+
+        // PUT api/<UserController>/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<bool>> Put(string id, [FromBody] User userToUpdate) {
+            ActionResult<bool > foundResult;
+            bool isUpdated = false;
+            if (userToUpdate != null) {
+                isUpdated = await _userControl.Update(userToUpdate);
+
+                if (isUpdated == true) {
+                    foundResult = Ok(isUpdated);
+                } else {
+                    return BadRequest();
+                }
+            } else {
+                foundResult = new BadRequestResult();
+            }
+            return foundResult;
+        }
     }
 }

@@ -64,8 +64,8 @@ namespace DataAccess {
             }
             return userInserted;
         }
-    
-    public async Task<User> Get(string id) {
+
+        public async Task<User> Get(string id) {
             User? foundUser = null;
 
             string sql = @"SELECT
@@ -96,10 +96,43 @@ namespace DataAccess {
                 }
             }
             return foundUser;
-    }
+        }
 
-    public Task<bool> Update(User entity) {
-        throw new NotImplementedException();
+        public async Task<bool> Update(User entity) {
+            int rowsAffected = -1;
+
+            string sql = @"UPDATE [User]
+                           SET
+                            firstName = @firstName,
+                            lastName = @lastName,
+                            birthdate = @birthdate,
+                            phone = @phone,
+                            email = @email,
+                            address = @address,
+                            zipcode = @zipcode,
+                            city = @city
+                        WHERE   
+                            userId = @userId";
+
+            try {
+                using (SqlConnection con = new SqlConnection(_connectionString)) {
+                    await con.OpenAsync();
+
+                    rowsAffected = con.Execute(sql, entity);
+                }
+
+                if (rowsAffected > 0) {
+                    _logger?.LogInformation($"User {entity.UserId} was updated");
+
+                } else {
+                    _logger?.LogWarning($"User {entity.UserId} was not updated");
+                }
+            } catch (Exception ex) {
+                _logger?.LogError($"There was an error updating {entity.UserId} the message was {ex.Message}");
+                throw;
+            }
+
+           return rowsAffected > 0;
+        }
     }
-}
 }
