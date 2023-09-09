@@ -16,7 +16,7 @@ namespace BusinessLogic.ModelConversion {
                     bookDto.IsbnNo,
                     bookDto.Location,
                     bookDto.Status,
-                    bookDto.BookImagesPath
+                    bookDto.ImageURL
                     );
             }
             return convertedBook;
@@ -35,7 +35,7 @@ namespace BusinessLogic.ModelConversion {
                     bookModel.IsbnNo ?? string.Empty,
                     bookModel.Location,
                     bookModel.Status ?? string.Empty,
-                    bookModel.BookImagesPath ?? new List<string>()
+                    bookModel.ImageURL
                 );
             }
             return bookOut;

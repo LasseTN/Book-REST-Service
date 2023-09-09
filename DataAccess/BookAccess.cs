@@ -35,6 +35,7 @@ namespace DataAccess {
                                 author,
                                 noOfPages,
                                 bookType,
+                                imageURL,
                                 status)
                             OUTPUT INSERTED.BookId
                             VALUES
@@ -45,6 +46,7 @@ namespace DataAccess {
                                  @author,
                                  @noOfPages,
                                  @bookType,
+                                 @imageURL,
                                  @status)";
 
 
@@ -56,6 +58,7 @@ namespace DataAccess {
                             entity.Author,
                             entity.NoOfPages,
                             entity.BookType,
+                            entity.ImageURL,
                             entity.Status
                         }, transaction);
 
@@ -83,6 +86,7 @@ namespace DataAccess {
                 b.author,
                 b.noOfPages,
                 b.bookType,
+                b.imageURL,
                 b.status,              
                 b.genreId,
                 g.genreName,
@@ -122,6 +126,7 @@ namespace DataAccess {
                 b.author,
                 b.noOfPages,
                 b.bookType,
+                b.imageURL,
                 b.status,              
                 b.genreId,
                 g.genreName,
@@ -162,6 +167,7 @@ namespace DataAccess {
 						author = @author,
 						noOfPages = @noOfPages,
 						bookType = @bookType,
+                        imageURL = @imageURL,
                         status = @status, 
 						genreId = @genreId,
                         locationId = @locationId 
@@ -175,6 +181,7 @@ namespace DataAccess {
                         author = entity.Author,
                         noOfPages = entity.NoOfPages,
                         bookType = entity.BookType,
+                        imageURL = entity.ImageURL,
                         status = entity.Status,
                         genreId = entity.Genre?.GenreId ?? 0,
                         locationId = entity.Location?.LocationId ?? 0,

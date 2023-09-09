@@ -10,11 +10,11 @@
         public string IsbnNo { get; set; }
         public Location? Location { get; set; }
         public string Status { get; set; }
-        public List<string>? BookImagesPath { get; set; }
+        public string ImageURL { get; set; }
 
         public Book() { }
 
-        public Book(int bookId, string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, List<string>? bookImagesPath = null) {
+        public Book(int bookId, string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, string imageURL = null) {
             BookId = bookId;
             Title = title;
             Author = author;
@@ -24,10 +24,10 @@
             IsbnNo = isbnNo;
             Location = location;
             Status = status;
-            BookImagesPath = bookImagesPath;
+            ImageURL = imageURL;
         }
 
-        public Book(string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, List<string>? bookImagesPath = null) {
+        public Book(string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, string imageURL = null) {
             Title = title;
             Author = author;
             Genre = genre;
@@ -36,7 +36,7 @@
             IsbnNo = isbnNo;
             Location = location;
             Status = status;
-            BookImagesPath = bookImagesPath;
+            ImageURL= imageURL;
         }
 
 

@@ -11,11 +11,11 @@ namespace DTOs {
         public string IsbnNo { get; set; }
         public Location? Location { get; set; }
         public string Status { get; set; }
-        public List<string>? BookImagesPath { get; set; }
+        public string ImageURL { get; set; }
 
         public BookInDto() { }
 
-        public BookInDto(string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, List<string> bookImagesPath) {
+        public BookInDto(string title, string author, Genre? genre, int noOfPages, string bookType, string isbnNo, Location? location, string status, string imageURL) {
             Title = title;
             Author = author;
             Genre = genre;
@@ -24,7 +24,7 @@ namespace DTOs {
             IsbnNo = isbnNo;
             Location = location;
             Status = status;
-            BookImagesPath = bookImagesPath;
+            ImageURL = imageURL; ;
         }
     }
 }
