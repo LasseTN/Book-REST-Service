@@ -1,26 +1,115 @@
-﻿using DataAccess.Interfaces;
+﻿using Dapper;
+using DataAccess.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace DataAccess {
     public class LogAccess : ILogAccess {
-        public Task<int> Create(Log entity) {
-            throw new NotImplementedException();
+
+        private readonly string? _connectionString;
+        private readonly ILogger<LogAccess> _logger;
+        private IBookAccess _bookAccess;
+        private IUserAccess _userAccess;
+
+        public LogAccess(IConfiguration configuration, IBookAccess bookAccess, IUserAccess userAccess, ILogger<LogAccess> logger = null) {
+            _connectionString = configuration.GetConnectionString("DbAccessConnection");
+            _logger = logger;
+            _bookAccess = bookAccess;
+            _userAccess = userAccess;
         }
+
+        public async Task<int> Create(Log entity, string listType) {
+            int statusCodeOrId = -1;
+
+            var sql = @"INSERT INTO [dbo].[log] 
+                (bookId, 
+                userId, 
+                currentPage, 
+                noOfPages, 
+                ListType)
+                VALUES 
+                (@bookId, 
+                 @userId, 
+                 @currentPage, 
+                 @noOfPages, 
+                 @listType);
+                SELECT CAST(SCOPE_IDENTITY() AS INT);"; // Retrieve the inserted ID
+
+            try {
+                using (IDbConnection conn = new SqlConnection(_connectionString)) {
+                    conn.Open();
+                    statusCodeOrId = await conn.ExecuteScalarAsync<int>(sql, new {
+                        entity.BookId,
+                        entity.UserId,
+                        entity.CurrentPage,
+                        entity.NoOfPages,
+                        listType
+                    });
+                }
+
+                if (statusCodeOrId == 0) {
+                    _logger?.LogError("No ID returned after insert");
+                    statusCodeOrId = 500; // Or another appropriate error code
+                }
+            } catch (Exception ex) {
+                _logger?.LogError(ex.Message);
+                statusCodeOrId = 500;
+            }
+
+            return statusCodeOrId;
+        }
+
 
         public Task<List<Log>> GetAllLogs(string userId) {
             throw new NotImplementedException();
         }
 
-        public Task<Log> GetLogById(int logId) {
-            throw new NotImplementedException();
+        public async Task<Log> GetLogById(int logId, string listType) {
+            using (SqlConnection conn = new SqlConnection(_connectionString)) {
+                conn.Open();
+                var sql = @"
+            SELECT
+                Log.logId,
+                Log.currentPage,
+                Log.noOfPages,
+                Log.listType,
+                Book.bookId,
+                [User].userId AS userId
+            FROM Log
+            JOIN [User] ON Log.userId = [User].userId
+            JOIN Book ON Log.bookId = Book.bookId
+            WHERE Log.logId = @logId
+                AND Log.listType = @listType";
+
+                var result = await conn.QueryAsync<Log, Book, User, Log>(
+                    sql,
+                    (log, book, user) => {
+                        log.Book = book; // Assuming Log has a Book property
+                        log.User = user; // Assuming Log has a UserId property
+                        return log;
+                    },
+                    new { logId, listType },
+                    splitOn: "bookId"
+                );
+
+                var foundLog = result.FirstOrDefault();
+
+                if (foundLog != null) {
+                    foundLog.Book = await _bookAccess.Get(foundLog.Book.BookId);
+                    // You may need to load additional user information if necessary
+                }
+
+                return foundLog;
+            }
         }
 
-        public Task<List<Log>> GetLogsByUserId(string userId) {
+
+
+
+        Task<List<Log>> ILogAccess.GetLogsByUserId(string userId) {
             throw new NotImplementedException();
         }
     }

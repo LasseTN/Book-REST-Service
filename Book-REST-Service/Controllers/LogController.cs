@@ -22,8 +22,10 @@ namespace Book_REST_Service.Controllers {
             IActionResult foundResult;
             
             int returnCode = -1;
+
+            string listType = logToCreate.ListType;
             
-            returnCode = await _logControl.Create(logToCreate);
+            returnCode = await _logControl.Create(logToCreate, listType);
             
             switch (returnCode) {
                 case >= 0:
@@ -43,9 +45,9 @@ namespace Book_REST_Service.Controllers {
 
         // GET: api/<LogController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Log>> Get(int id) {
+        public async Task<ActionResult<Log>> Get(int id, string listType) {
             ActionResult<Log> foundReturn;
-            Log foundLog = await _logControl.GetLogById(id);
+            Log foundLog = await _logControl.GetLogById(id, listType);
             if (foundLog != null) {
                 foundReturn = Ok(foundLog);
             } else {

@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model {
+﻿namespace Model {
     public class Log {
-
         public int LogId { get; set; }
         public int BookId { get; set; }
-        public User UserId { get; set; }
+        public int UserId { get; set; }
         public int CurrentPage { get; set; }
-        public Book NoOfPages { get; set; }
+        public int NoOfPages { get; set; }
+        public string ListType { get; set; }
+        public User User { get; set; }
+        public Book Book { get; set; }
 
         public Log() { }
 
-        public Log(int logId, int bookId, User userId, int currentPage, Book noOfPages) {
+        public Log(int logId, int bookId, int userId, int currentPage, int totalPages, string listType) {
             LogId = logId;
             BookId = bookId;
             UserId = userId;
             CurrentPage = currentPage;
-            NoOfPages = noOfPages;
+            NoOfPages = totalPages;
+            ListType = listType;
         }
-
     }
 }

@@ -15,9 +15,9 @@ namespace BusinessLogic {
             _logAccess = logAccess;
         }
 
-        public async Task<int> Create(Log entity) {
+        public async Task<int> Create(Log entity, string listType) {
             int insertedId = -1;
-            insertedId = await _logAccess.Create(entity);
+            insertedId = await _logAccess.Create(entity, listType);
             return insertedId;
         }
 
@@ -25,9 +25,9 @@ namespace BusinessLogic {
             throw new NotImplementedException();
         }
 
-        public async Task<Log> GetLogById(int logId) {
+        public async Task<Log> GetLogById(int logId, string listType) {
             Log foundLog;
-            foundLog = await _logAccess.GetLogById(logId);
+            foundLog = await _logAccess.GetLogById(logId, listType);
             return foundLog;
         }
 
