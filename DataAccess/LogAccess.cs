@@ -87,8 +87,8 @@ namespace DataAccess {
                 var result = await conn.QueryAsync<Log, Book, User, Log>(
                     sql,
                     (log, book, user) => {
-                        log.Book = book; // Assuming Log has a Book property
-                        log.User = user; // Assuming Log has a UserId property
+                        log.Book = book; 
+                        log.User = user; 
                         return log;
                     },
                     new { logId, listType },
@@ -99,7 +99,6 @@ namespace DataAccess {
 
                 if (foundLog != null) {
                     foundLog.Book = await _bookAccess.Get(foundLog.Book.BookId);
-                    // You may need to load additional user information if necessary
                 }
 
                 return foundLog;
