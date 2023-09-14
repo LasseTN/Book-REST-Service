@@ -105,9 +105,6 @@ namespace DataAccess {
             }
         }
 
-
-
-
         Task<List<Log>> ILogAccess.GetLogsByUserId(string userId) {
             throw new NotImplementedException();
         }
