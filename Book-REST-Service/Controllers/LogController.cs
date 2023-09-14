@@ -30,7 +30,8 @@ namespace Book_REST_Service.Controllers {
             switch (returnCode) {
                 case >= 0:
                     logToCreate.LogId = returnCode;
-                    foundResult = CreatedAtAction(nameof(Get), new { logId = returnCode }, logToCreate); // 201
+                    foundResult = CreatedAtAction("Get", new { id = returnCode, listType }, logToCreate); // 201
+
                     break;
                 case -500:
                     foundResult = StatusCode(500);
@@ -42,7 +43,6 @@ namespace Book_REST_Service.Controllers {
             return foundResult;
         }
 
-
         // GET: api/<LogController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Log>> Get(int id, string listType) {
@@ -53,7 +53,8 @@ namespace Book_REST_Service.Controllers {
             } else {
                 foundReturn = StatusCode(204);
             }
-            return foundLog;
+            return foundReturn;
         }
+
     }
 }

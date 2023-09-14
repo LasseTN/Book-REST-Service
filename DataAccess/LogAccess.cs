@@ -52,7 +52,7 @@ namespace DataAccess {
 
                 if (statusCodeOrId == 0) {
                     _logger?.LogError("No ID returned after insert");
-                    statusCodeOrId = 500; // Or another appropriate error code
+                    statusCodeOrId = 500; 
                 }
             } catch (Exception ex) {
                 _logger?.LogError(ex.Message);
@@ -92,7 +92,7 @@ namespace DataAccess {
                         return log;
                     },
                     new { logId, listType },
-                    splitOn: "bookId"
+                    splitOn: "bookId, userId"
                 );
 
                 var foundLog = result.FirstOrDefault();
