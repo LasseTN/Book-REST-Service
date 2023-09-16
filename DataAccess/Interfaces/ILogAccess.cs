@@ -6,5 +6,7 @@ namespace DataAccess.Interfaces {
         Task<List<Log>> GetLogsByUserId(string userId);
         Task<List<Log>> GetAllLogs(string userId);
         Task<Log> GetLogById(int logId, string listType);
+        Task<int> Update(int logId, Log updatedLog);
+
     }
 }

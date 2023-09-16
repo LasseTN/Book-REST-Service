@@ -34,5 +34,9 @@ namespace BusinessLogic {
         public Task<List<Log>> GetLogsByUserId(string userId) {
             throw new NotImplementedException();
         }
+
+        public async Task<int> Update(int logId, Log updatedLog) {
+            return await _logAccess.Update(logId, updatedLog);
+        }
     }
 }

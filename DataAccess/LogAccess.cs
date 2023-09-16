@@ -52,7 +52,7 @@ namespace DataAccess {
 
                 if (statusCodeOrId == 0) {
                     _logger?.LogError("No ID returned after insert");
-                    statusCodeOrId = 500; 
+                    statusCodeOrId = 500;
                 }
             } catch (Exception ex) {
                 _logger?.LogError(ex.Message);
@@ -87,8 +87,8 @@ namespace DataAccess {
                 var result = await conn.QueryAsync<Log, Book, User, Log>(
                     sql,
                     (log, book, user) => {
-                        log.Book = book; 
-                        log.User = user; 
+                        log.Book = book;
+                        log.User = user;
                         return log;
                     },
                     new { logId, listType },
@@ -108,5 +108,41 @@ namespace DataAccess {
         Task<List<Log>> ILogAccess.GetLogsByUserId(string userId) {
             throw new NotImplementedException();
         }
+
+        public async Task<int> Update(int logId, Log updatedLog) {
+            int rowsAffected = 0;
+
+            string sql = @"
+        UPDATE [Log]
+        SET
+            bookId = @BookId, 
+            userId = @UserId, 
+            currentPage = @CurrentPage, 
+            noOfPages = @NoOfPages, 
+            ListType = @ListType
+        WHERE
+            logId = @LogId";
+
+            using (SqlConnection con = new SqlConnection(_connectionString)) {
+                await con.OpenAsync();
+
+                try {
+                    rowsAffected = await con.ExecuteAsync(sql, updatedLog);
+
+                    if (rowsAffected > 0) {
+                        _logger?.LogInformation($"Log {logId} updated successfully");
+                        return 0; // Set returnCode to 0 for success
+                    } else {
+                        _logger?.LogWarning($"Log {logId} was not updated");
+                        return -1; // Set returnCode to -1 for not found
+                    }
+                } catch (Exception ex) {
+                    _logger?.LogError($"Error updating log {logId}: {ex.Message}");
+                    return -500; // Set returnCode to -500 for other errors
+                }
+            }
+
+        }
+
     }
 }

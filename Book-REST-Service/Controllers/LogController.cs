@@ -56,7 +56,28 @@ namespace Book_REST_Service.Controllers {
             return foundReturn;
         }
 
+        // PUT api/<LogController>/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateLog(int id, [FromBody] Log updatedLog) {
+            int returnCode = await _logControl.Update(id, updatedLog);
+            IActionResult foundResult;
 
+            switch (returnCode) {
+                case 0:
+                    foundResult = Ok();
+                    break;
+                case -1:
+                    foundResult = NotFound();
+                    break;
+                case -500:
+                    foundResult = StatusCode(500);
+                    break;
+                    default:
+                    foundResult = StatusCode(400);
+                    break;
+            }
+            return foundResult;
+        }
 
     }
 }
