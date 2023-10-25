@@ -8,7 +8,7 @@ reading everytime they have read in their book, to the page they are at now. Whe
 The user can add books in the DB to the three lists.
 
 This program is a distributed system that consists of an API that holds CRUD funktionality for Books, Genre, Location, Employee, User and Log. 
-The program is still under development, Log are not implemented yet as well at the MVC.
+The program is still under development, MVC are not implemented yet.
 
 Comments: 
 Because there are a lot of CRUD functionality in this API, there is only comments written for Book, BookInDto, BookOutDto, BookInDtoConvert, BookController, BookControl and BookAcess. 
