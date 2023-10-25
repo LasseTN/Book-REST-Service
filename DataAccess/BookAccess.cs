@@ -147,6 +147,7 @@ namespace DataAccess {
                 LEFT JOIN Location l ON b.locationId = l.locationId";
 
                     // Execute the SQL query and map the results to the 'Book' list.
+
                     books = (await conn.QueryAsync<Book, Genre, Location, Book>(bookQuery,
                         (book, genre, location) => {
                             book.Genre = genre;
@@ -155,6 +156,10 @@ namespace DataAccess {
                         },
 
                         transaction: transaction,
+
+                        // The 'splitOn' parameter specifies where to split the columns in the result set when mapping to C# objects.
+                        // In this case, columns before 'GenreId' map to 'Book', columns between 'GenreId' and 'LocationId' map to 'Genre',
+                        // and columns from 'LocationId' onwards map to 'Location'.
                         splitOn: "GenreId,LocationId"))
                     .ToList();
 
