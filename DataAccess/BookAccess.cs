@@ -104,7 +104,7 @@ namespace DataAccess {
                         book.Location = location;
                         return book;
                     },
-                    new { bookId = id },  
+                    new { bookId = id },
                     splitOn: "Genreid, LocationName"  // Splitting columns for mapping
                 );
 
@@ -167,7 +167,7 @@ namespace DataAccess {
                     transaction.Commit();
 
                     // Return list of books
-                    return books; 
+                    return books;
                 }
             }
         }
