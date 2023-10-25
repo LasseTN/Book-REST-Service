@@ -37,7 +37,7 @@ namespace Book_REST_Service.Controllers {
                 foundReturn = Ok(foundDtos);
             } else {
 
-            // If there are no books in the db, and empty list is returned with the HTTP 200 (OK) response
+            // If there are no books in the db, an empty list is returned with the HTTP 200 (OK) response
                 foundDtos = new List<BookOutDto>();
                 foundReturn = Ok(foundDtos.ToList());
             }
