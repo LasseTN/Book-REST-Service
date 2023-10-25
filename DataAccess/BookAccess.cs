@@ -113,12 +113,22 @@ namespace DataAccess {
         }
 
 
+        // This method queries and returns all books from the 'books' database table.
         public async Task<List<Book>> GetAll() {
+
+            // Initialize a new sqlConnection object to connect to the database
             using (SqlConnection conn = new SqlConnection(_connectionString)) {
+
+                // Open an asynchronous connection to the database.
                 await conn.OpenAsync();
 
+                // Start a transaction in order to comply the ACID principles
                 using (var transaction = conn.BeginTransaction()) {
+
+                    // Initialize a list to store the retrieved books.
                     var books = new List<Book>();
+
+                    // SQL query to join 'Book' with 'Genre' and 'Location' tables.
                     string bookQuery = @"SELECT
                 b.bookId, 
                 b.isbnNo,
@@ -136,6 +146,7 @@ namespace DataAccess {
                 INNER JOIN Genre g ON b.genreId = g.genreId
                 LEFT JOIN Location l ON b.locationId = l.locationId";
 
+                    // Execute the SQL query and map the results to the 'Book' list.
                     books = (await conn.QueryAsync<Book, Genre, Location, Book>(bookQuery,
                         (book, genre, location) => {
                             book.Genre = genre;
@@ -147,8 +158,11 @@ namespace DataAccess {
                         splitOn: "GenreId,LocationId"))
                     .ToList();
 
+                    // Commit the transaction.
                     transaction.Commit();
-                    return books; // Return list of books
+
+                    // Return list of books
+                    return books; 
                 }
             }
         }
