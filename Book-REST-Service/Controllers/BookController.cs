@@ -18,6 +18,8 @@ namespace Book_REST_Service.Controllers {
         // This is a method that handles HTTP GET requests to retrieve a list of books
 
         // GET: api/<booksController>
+
+        // Specifies that the method should handle GET request
         [HttpGet]
         public async Task<ActionResult<List<BookOutDto>>> GetAll() {
 

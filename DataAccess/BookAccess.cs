@@ -5,6 +5,11 @@ using Microsoft.Extensions.Logging;
 using Model;
 using System.Data.SqlClient;
 
+// This class uses the Dapper Object-Relational Mapping (ORM) library to handle database operations for the Book entity. Dapper
+// simplifies the process of mapping database records to C# objects by allowing us to write native SQL queries and 
+// automatically mapping the result set to our defined models. Create, Read, Update, and fetching all records are implemented
+// using Dapper's methods like ExecuteScalarAsync and QueryAsync.
+
 namespace DataAccess {
     public class BookAccess : IBookAccess {
 
